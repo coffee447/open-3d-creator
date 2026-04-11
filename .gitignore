@@ -1,0 +1,65 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg
+*.egg-info/
+.eggs/
+dist/
+build/
+pip-wheel-metadata/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Testing / coverage / typing
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# IDE / editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Project: generated artifacts (D3D meshes, PIXEstL sessions/exports)
+outputs/
+
+# Project: large downloaded model weights (restore from Hugging Face / docs)
+weights/
+
+# Local caches (pip, Hugging Face, torch, etc. if created under repo)
+.cache/
+
+docs/
+images/
+repositories/pixestl/
+# Optional: large vendored trees (uncomment if not meant to be versioned)
+# repositories/

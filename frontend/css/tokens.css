@@ -1,0 +1,51 @@
+/**
+ * Win32-style system colors — classic desktop program chrome.
+ * Maps to familiar Windows dialog / MDI client appearance.
+ */
+:root {
+  /* Surfaces */
+  --win-face: #c0c0c0;
+  --win-window: #ffffff;
+  --win-button-face: #c0c0c0;
+  --win-button-text: #000000;
+  --win-window-text: #000000;
+  --win-gray-text: #808080;
+
+  /* Caption (active title bar) */
+  --win-active-caption: #000080;
+  --win-active-caption-text: #ffffff;
+  --win-inactive-caption: #808080;
+  --win-inactive-caption-text: #c0c0c0;
+
+  /* Menu */
+  --win-menu: #c0c0c0;
+  --win-menu-text: #000000;
+  --win-menu-hilite: #000080;
+  --win-menu-hilite-text: #ffffff;
+
+  /* Selection / focus */
+  --win-highlight: #000080;
+  --win-highlight-text: #ffffff;
+  --win-hotlight: #000080;
+
+  /* 3D borders (light top-left, dark bottom-right) */
+  --win-3d-light: #ffffff;
+  --win-3d-highlight: #dfdfdf;
+  --win-3d-shadow: #808080;
+  --win-3d-dkshadow: #000000;
+
+  /* Status */
+  --win-status-bg: #c0c0c0;
+  --win-status-text: #000000;
+
+  /* Typography */
+  --win-ui-font: "Segoe UI", Tahoma, "MS Sans Serif", sans-serif;
+  --win-ui-size: 12px;
+  --win-small-size: 11px;
+  --win-mono: "Consolas", "Lucida Console", monospace;
+
+  /* Layout */
+  --win-titlebar-height: 22px;
+  --win-menubar-height: 24px;
+  --win-statusbar-height: 24px;
+}

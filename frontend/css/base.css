@@ -1,0 +1,101 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  font-family: var(--win-ui-font);
+  font-size: var(--win-ui-size);
+  color: var(--win-window-text);
+  background: var(--win-face);
+}
+
+.hidden {
+  display: none !important;
+}
+
+.side-section.hidden {
+  display: none !important;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.win-outset {
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--win-3d-light) var(--win-3d-dkshadow) var(--win-3d-dkshadow) var(--win-3d-light);
+  background: var(--win-button-face);
+}
+
+.win-inset {
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--win-3d-dkshadow) var(--win-3d-light) var(--win-3d-light) var(--win-3d-dkshadow);
+  background: var(--win-window);
+}
+
+#app-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  border: 2px solid;
+  border-color: var(--win-3d-light) var(--win-3d-dkshadow) var(--win-3d-dkshadow) var(--win-3d-light);
+}
+
+.text-muted {
+  margin: 0;
+  font-size: var(--win-small-size);
+  line-height: 1.5;
+  color: #404040;
+}
+
+/* Home — one line per tool + GitHub */
+.home-intro {
+  margin: 0 0 10px;
+}
+
+.home-line {
+  margin: 0 0 8px;
+}
+
+.home-line:last-child {
+  margin-bottom: 0;
+}
+
+.home-gh-link {
+  margin-left: 6px;
+  font-family: var(--win-mono);
+  font-size: 10px;
+  color: #000080;
+  text-decoration: underline;
+}
+
+.home-gh-link:hover {
+  color: var(--win-hotlight);
+}
+
+.sidebar-hint {
+  font-size: var(--win-small-size);
+  margin-bottom: 8px;
+}
+
+.about-name {
+  margin: 0 0 8px;
+}
+
+#pix-last-download:not(.hidden) {
+  display: block !important;
+}
+
+.pix-dl-link {
+  margin-top: 8px;
+  font-size: var(--win-small-size);
+}

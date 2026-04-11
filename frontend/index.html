@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Open 3D Creator</title>
+    <link rel="stylesheet" href="/static/css/tokens.css" />
+    <link rel="stylesheet" href="/static/css/base.css" />
+    <link rel="stylesheet" href="/static/css/win32.css" />
+    <link rel="modulepreload" href="/static/js/bootstrap-app.js" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+          "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <div id="app-root">
+      <header id="titlebar" class="flex-row">
+        <div class="title">Open 3D Creator</div>
+      </header>
+
+      <nav id="menubar" class="flex-row" aria-label="Application menu">
+        <div class="menu-wrap">
+          <button type="button" class="menu-btn" data-menu="file" aria-haspopup="true" aria-expanded="false">File</button>
+          <div class="menu-panel hidden" id="menu-file" role="menu">
+            <button type="button" class="menu-item" data-action="nav" data-view="home">Home</button>
+            <button type="button" class="menu-item" data-action="nav" data-view="settings">Preferences…</button>
+            <div class="menu-sep"></div>
+            <button type="button" class="menu-item" data-action="exit">Exit</button>
+          </div>
+        </div>
+        <div class="menu-wrap">
+          <button type="button" class="menu-btn" data-menu="edit" aria-haspopup="true" aria-expanded="false">Edit</button>
+          <div class="menu-panel hidden" id="menu-edit" role="menu">
+            <button type="button" class="menu-item" data-action="placeholder">Undo</button>
+            <button type="button" class="menu-item" data-action="placeholder">Redo</button>
+          </div>
+        </div>
+        <div class="menu-wrap">
+          <button type="button" class="menu-btn" data-menu="view" aria-haspopup="true" aria-expanded="false">View</button>
+          <div class="menu-panel hidden" id="menu-view" role="menu">
+            <button type="button" class="menu-item menu-metrics-toggle" data-action="toggle-metrics" role="menuitemcheckbox" aria-checked="false">
+              <span class="menu-check" aria-hidden="true"> </span>
+              System metrics
+            </button>
+          </div>
+        </div>
+        <div class="menu-wrap">
+          <button type="button" class="menu-btn" data-menu="tools" aria-haspopup="true" aria-expanded="false">Tools</button>
+          <div class="menu-panel hidden" id="menu-tools" role="menu">
+            <button type="button" class="menu-item" data-action="nav" data-view="d3d">Direct3D-S2</button>
+            <button type="button" class="menu-item" data-action="nav" data-view="pixestl">PIXEstL</button>
+          </div>
+        </div>
+        <div class="menu-wrap">
+          <button type="button" class="menu-btn" data-menu="help" aria-haspopup="true" aria-expanded="false">Help</button>
+          <div class="menu-panel hidden" id="menu-help" role="menu">
+            <button type="button" class="menu-item" data-action="about">About Open 3D Creator…</button>
+          </div>
+        </div>
+        <span class="menu-hint">Alt opens menu</span>
+      </nav>
+
+      <div id="workbench">
+        <aside id="sidebar">
+          <div id="side-home" class="side-section hidden">
+            <div class="sidebar-title">Home</div>
+            <div class="win-groupbox">
+              <span class="win-groupbox-title">Two separate tools</span>
+              <p class="text-muted home-line">
+                <strong>Direct3D-S2</strong> — neural image → watertight mesh (OBJ).
+                <a
+                  class="home-gh-link"
+                  href="https://github.com/DreamTechAI/Direct3D-S2"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >GitHub</a>
+              </p>
+              <p class="text-muted home-line">
+                <strong>PIXEstL</strong> — image → filament layers, STLs + PNG previews for multi-material prints.
+                <a class="home-gh-link" href="https://github.com/gaugo87/PIXEstL" target="_blank" rel="noopener noreferrer">GitHub</a>
+              </p>
+            </div>
+          </div>
+
+          <div id="side-d3d" class="side-section hidden">
+            <div class="sidebar-title">Direct3D-S2</div>
+            <div class="win-groupbox">
+              <span class="win-groupbox-title">Source image</span>
+              <div class="form-row">
+                <label for="file-input">Image file</label>
+                <input type="file" id="file-input" accept="image/*" />
+                <img id="preview-img" class="hidden" alt="Preview" />
+              </div>
+            </div>
+            <div class="win-groupbox">
+              <span class="win-groupbox-title">Options</span>
+              <div class="form-row">
+                <label><input type="checkbox" id="use-alpha" /> Use alpha channel</label>
+              </div>
+              <div class="form-row">
+                <label for="resolution">SDF resolution</label>
+                <select id="resolution">
+                  <option value="256">256</option>
+                  <option value="512">512</option>
+                  <option value="1024" selected>1024</option>
+                </select>
+              </div>
+              <div class="form-row">
+                <label><input type="checkbox" id="simplify" checked /> Simplify mesh</label>
+              </div>
+              <div class="form-row">
+                <label for="reduce-ratio">Face reduction ratio</label>
+                <input type="number" id="reduce-ratio" min="0.1" max="0.95" step="0.05" value="0.95" />
+              </div>
+            </div>
+            <button type="button" class="btn-primary" id="btn-generate">Generate 3D (D3D)</button>
+          </div>
+
+          <div id="side-d3d-lib" class="side-section hidden">
+            <div class="sidebar-title">D3D meshes</div>
+            <div class="panel sidebar-hint">OBJ files under <code>outputs/d3d/meshes</code> (legacy <code>outputs/meshes</code> is merged in the list).</div>
+            <button type="button" class="btn-primary" id="btn-refresh-lib">Refresh</button>
+            <ul class="mesh-list" id="mesh-list" role="listbox" aria-label="Mesh files"></ul>
+          </div>
+
+          <div id="side-pixestl" class="side-section hidden">
+            <div class="sidebar-title">PIXEstL</div>
+            <div class="win-groupbox">
+              <span class="win-groupbox-title">Source</span>
+              <div class="form-row">
+                <label for="pix-file-input">Image</label>
+                <input type="file" id="pix-file-input" accept="image/*" />
+              </div>
+              <div class="form-row">
+                <label for="pix-palette-input">Palette JSON (optional)</label>
+                <input type="file" id="pix-palette-input" accept=".json,application/json" />
+              </div>
+            </div>
+            <div class="win-groupbox" id="pix-params-group">
+              <span class="win-groupbox-title">Parameters</span>
+              <div class="form-row">
+                <label for="pix-width">Image width (mm)</label>
+                <input type="number" id="pix-width" min="1" step="0.1" value="130" />
+              </div>
+              <div class="form-row">
+                <label for="pix-color-dist">Color distance</label>
+                <select id="pix-color-dist">
+                  <option value="CIELab" selected>CIELab</option>
+                  <option value="RGB">RGB</option>
+                </select>
+              </div>
+            </div>
+            <button type="button" class="btn-primary" id="btn-pixestl-generate">Generate</button>
+            <button type="button" class="btn-primary" id="btn-pixestl-export-zip" disabled>Export</button>
+            <a id="pix-last-download" class="hidden pix-dl-link" href="#">Download</a>
+            <button type="button" class="btn-primary" id="btn-pixestl-refresh">Refresh</button>
+          </div>
+
+          <div id="side-settings" class="side-section hidden">
+            <div class="sidebar-title">Settings</div>
+            <div class="win-groupbox">
+              <span class="win-groupbox-title">Session</span>
+              <p class="text-muted">Direct3D-S2 and PIXEstL each use their own API paths and output directories on the server.</p>
+            </div>
+          </div>
+        </aside>
+
+        <main id="main">
+          <section id="view-home" class="view-panel active" data-view-panel="home">
+            <h2>Welcome</h2>
+            <div class="panel">
+              <p class="text-muted home-intro">Use <strong>Tools</strong> to run either pipeline; they do not share outputs.</p>
+              <p class="text-muted home-line">
+                <strong>Direct3D-S2</strong> — turns one image into a watertight 3D mesh with a neural sparse-volume model.
+                <a
+                  class="home-gh-link"
+                  href="https://github.com/DreamTechAI/Direct3D-S2"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >GitHub</a>
+              </p>
+              <p class="text-muted home-line">
+                <strong>PIXEstL</strong> — slices an image into filament-colored layers and exports stacked STLs and PNG previews for multi-material printing.
+                <a class="home-gh-link" href="https://github.com/gaugo87/PIXEstL" target="_blank" rel="noopener noreferrer">GitHub</a>
+              </p>
+            </div>
+          </section>
+          <section id="view-d3d" class="view-panel" data-view-panel="d3d">
+            <h2>Direct3D-S2</h2>
+            <div class="panel">Image → OBJ via Direct3D-S2. Use the sidebar for options, then <strong>Tools → Run</strong> or <strong>Generate 3D (D3D)</strong>.</div>
+          </section>
+          <section id="view-d3d-lib" class="view-panel" data-view-panel="d3d-lib">
+            <h2>D3D mesh library</h2>
+            <div class="panel">Select a mesh to preview in the 3D view (below).</div>
+          </section>
+          <section id="view-pixestl" class="view-panel" data-view-panel="pixestl">
+            <h2>PIXEstL</h2>
+            <div class="panel" id="pix-intro-panel">Image → PNG previews (quantized color + texture). Export ZIP for STL outputs. Python PIXEstL port (not Direct3D-S2).</div>
+            <div class="pix-source-panel" id="pix-source-panel">
+              <h3>Source image</h3>
+              <img id="pix-main-source-preview" class="hidden pix-main-source-preview" alt="PIXEstL source preview" />
+            </div>
+            <div id="pix-layer-panel" class="pix-layer-panel">
+              <div id="pix-layer-grid" class="pix-layer-grid">
+                <p id="pix-layer-placeholder" class="text-muted pix-layer-placeholder">
+                  Run <strong>Generate</strong> or <strong>Refresh</strong> to load previews.
+                </p>
+              </div>
+            </div>
+          </section>
+          <section id="view-settings" class="view-panel" data-view-panel="settings">
+            <h2>Settings</h2>
+            <div class="panel">Server hosts two tool APIs: <code>/api/v1/d3d/*</code> and <code>/api/v1/pixestl/*</code>.</div>
+          </section>
+
+          <div id="viewport-section" class="viewport-section hidden">
+            <h3>Preview (Direct3D-S2 meshes)</h3>
+            <div id="viewport" aria-label="3D preview"></div>
+          </div>
+        </main>
+      </div>
+
+      <footer id="statusbar" class="flex-row">
+        <span class="status-cell left" id="status-left">Ready</span>
+        <div id="status-metrics-group" class="status-metrics-group hidden" aria-hidden="true">
+          <span class="status-cell stat" id="status-cpu" title="CPU usage">CPU —</span>
+          <span class="status-cell stat" id="status-mem" title="System memory">RAM —</span>
+          <span class="status-cell stat" id="status-gpu" title="GPU utilization">GPU —</span>
+          <span class="status-cell stat" id="status-vram" title="GPU memory">VRAM —</span>
+        </div>
+        <span class="status-cell right" id="status-right">Open 3D Creator</span>
+      </footer>
+    </div>
+
+    <div id="modal-overlay" class="hidden" role="dialog" aria-modal="true" aria-labelledby="about-title">
+      <div class="win-dialog">
+        <div class="win-dialog-title" id="about-title">About Open 3D Creator</div>
+        <div class="win-dialog-body">
+          <p class="about-name"><strong>Open 3D Creator</strong></p>
+          <p class="text-muted">
+            Hosts two independent tools: <strong>Direct3D-S2</strong> (FastAPI <code>/api/v1/d3d</code>) and <strong>PIXEstL</strong> (<code>/api/v1/pixestl</code>). Classic Windows-style UI.
+          </p>
+        </div>
+        <div class="win-dialog-actions">
+          <button type="button" id="about-ok">OK</button>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="/static/js/main.js"></script>
+  </body>
+</html>

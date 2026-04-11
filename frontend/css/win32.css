@@ -1,0 +1,634 @@
+/* Title bar — active window caption */
+#titlebar {
+  height: var(--win-titlebar-height);
+  min-height: var(--win-titlebar-height);
+  background: linear-gradient(90deg, #000080 0%, #1084d0 100%);
+  color: var(--win-active-caption-text);
+  padding: 0 4px 0 6px;
+  border-bottom: 1px solid var(--win-3d-dkshadow);
+  user-select: none;
+}
+
+#titlebar .title {
+  flex: 1;
+  font-size: var(--win-small-size);
+  font-weight: 600;
+  line-height: var(--win-titlebar-height);
+}
+
+/* Menu bar */
+#menubar {
+  height: var(--win-menubar-height);
+  background: var(--win-menu);
+  color: var(--win-menu-text);
+  padding: 0 2px;
+  border-bottom: 1px solid var(--win-3d-shadow);
+  position: relative;
+  z-index: 200;
+}
+
+#menubar .menu-hint {
+  margin-left: auto;
+  font-size: var(--win-small-size);
+  color: var(--win-gray-text);
+  padding-right: 6px;
+  user-select: none;
+}
+
+.menu-wrap {
+  position: relative;
+}
+
+#menubar .menu-btn {
+  height: 22px;
+  padding: 2px 8px;
+  margin: 1px 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: default;
+}
+
+#menubar .menu-btn:hover,
+#menubar .menu-btn[aria-expanded="true"] {
+  background: var(--win-menu-hilite);
+  color: var(--win-menu-hilite-text);
+}
+
+.menu-panel {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 0;
+  min-width: 200px;
+  max-width: 280px;
+  background: var(--win-menu);
+  border: 2px solid;
+  border-color: var(--win-3d-light) var(--win-3d-dkshadow) var(--win-3d-dkshadow) var(--win-3d-light);
+  padding: 2px;
+  z-index: 300;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.15);
+}
+
+.menu-panel .menu-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 4px 20px 4px 24px;
+  border: none;
+  background: transparent;
+  color: var(--win-menu-text);
+  font: inherit;
+  cursor: default;
+}
+
+.menu-panel .menu-item:hover {
+  background: var(--win-menu-hilite);
+  color: var(--win-menu-hilite-text);
+}
+
+.menu-sep {
+  height: 1px;
+  margin: 2px 0;
+  border-top: 1px solid var(--win-3d-shadow);
+  border-bottom: 1px solid var(--win-3d-light);
+}
+
+/* Workbench: sidebar + main */
+#workbench {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  min-height: 0;
+  align-items: stretch;
+  background: var(--win-face);
+}
+
+#sidebar {
+  width: 300px;
+  min-width: 240px;
+  max-width: 400px;
+  background: var(--win-face);
+  border-right: 1px solid var(--win-3d-shadow);
+  padding: 8px;
+  overflow: auto;
+}
+
+#sidebar .sidebar-title {
+  font-size: var(--win-small-size);
+  font-weight: 700;
+  color: var(--win-window-text);
+  margin: 0 0 6px;
+  user-select: none;
+}
+
+/* Group box (Windows dialog) */
+.win-groupbox {
+  border: 1px solid;
+  border-color: var(--win-3d-shadow) var(--win-3d-light) var(--win-3d-light) var(--win-3d-shadow);
+  padding: 10px 10px 8px;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.win-groupbox > .win-groupbox-title {
+  position: absolute;
+  top: -7px;
+  left: 8px;
+  padding: 0 4px;
+  background: var(--win-face);
+  font-size: var(--win-small-size);
+  color: var(--win-window-text);
+}
+
+#sidebar .panel {
+  background: var(--win-window);
+  border: 1px solid;
+  border-color: var(--win-3d-shadow) var(--win-3d-light) var(--win-3d-light) var(--win-3d-shadow);
+  padding: 8px 10px;
+  font-size: var(--win-ui-size);
+  line-height: 1.4;
+  margin-bottom: 10px;
+}
+
+#main {
+  flex: 1;
+  background: var(--win-window);
+  padding: 8px 10px 12px;
+  overflow: auto;
+  min-width: 0;
+  border-left: 1px solid var(--win-3d-light);
+}
+
+#main h2 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--win-window-text);
+  margin: 0 0 8px;
+}
+
+#main .panel {
+  background: var(--win-face);
+  border: 1px solid;
+  border-color: var(--win-3d-shadow) var(--win-3d-light) var(--win-3d-light) var(--win-3d-shadow);
+  padding: 8px 10px;
+}
+
+.view-panel {
+  display: none;
+}
+
+.view-panel.active {
+  display: block;
+}
+
+/* PIXEstL — single vertical rule: same width + color everywhere */
+#view-pixestl {
+  --pix-v-rule-width: 1px;
+  --pix-v-rule-color: var(--win-3d-shadow);
+  --pix-v-rule: var(--pix-v-rule-width) solid var(--pix-v-rule-color);
+}
+
+#view-pixestl.active {
+  display: grid;
+  grid-template-columns: minmax(220px, 300px) minmax(0, 1fr);
+  grid-template-rows: auto auto minmax(0, 1fr);
+  column-gap: 10px;
+  row-gap: 6px;
+  align-items: stretch;
+  /* Fill workbench client so preview row can grow with the window */
+  min-height: calc(
+    100dvh - var(--win-titlebar-height) - var(--win-menubar-height) - var(--win-statusbar-height) - 8px
+  );
+}
+
+#view-pixestl.active > h2,
+#view-pixestl.active > #pix-intro-panel {
+  grid-column: 1 / -1;
+}
+
+#pix-source-panel {
+  grid-column: 1;
+  grid-row: 3;
+  border-right: var(--pix-v-rule);
+  padding-right: 12px;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+#pix-layer-panel {
+  grid-column: 2;
+  grid-row: 3;
+  padding-left: 8px;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Form controls — classic inset fields */
+.form-row {
+  margin-bottom: 8px;
+}
+
+.form-row label {
+  display: block;
+  margin-bottom: 2px;
+  font-size: var(--win-small-size);
+  color: var(--win-window-text);
+}
+
+.form-row input[type="text"],
+.form-row input[type="number"],
+.form-row select {
+  width: 100%;
+  padding: 2px 4px;
+  background: var(--win-window);
+  color: var(--win-window-text);
+  border: 2px solid;
+  border-color: var(--win-3d-shadow) var(--win-3d-light) var(--win-3d-light) var(--win-3d-shadow);
+  border-radius: 0;
+  font: inherit;
+}
+
+.form-row input[type="checkbox"] {
+  width: 13px;
+  height: 13px;
+  vertical-align: middle;
+  margin-right: 4px;
+}
+
+/* PIXEstL parameters panel — tighter control spacing */
+#pix-params-group {
+  padding: 8px 8px 6px;
+}
+
+#pix-params-group .form-row {
+  margin-bottom: 6px;
+}
+
+#pix-params-group .form-row:last-child {
+  margin-bottom: 2px;
+}
+
+#pix-params-group .form-row label {
+  margin-bottom: 1px;
+}
+
+#pix-params-group .form-row input[type="number"],
+#pix-params-group .form-row select {
+  padding: 1px 4px;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 4px 8px;
+  margin-top: 6px;
+  background: var(--win-button-face);
+  color: var(--win-button-text);
+  border: 2px solid;
+  border-color: var(--win-3d-light) var(--win-3d-dkshadow) var(--win-3d-dkshadow) var(--win-3d-light);
+  border-radius: 0;
+  font: inherit;
+  cursor: default;
+}
+
+.btn-primary:active {
+  border-color: var(--win-3d-dkshadow) var(--win-3d-light) var(--win-3d-light) var(--win-3d-dkshadow);
+}
+
+.btn-primary:disabled {
+  color: var(--win-gray-text);
+  cursor: not-allowed;
+}
+
+#preview-img {
+  max-width: 100%;
+  max-height: 180px;
+  border: 2px solid;
+  border-color: var(--win-3d-shadow) var(--win-3d-light) var(--win-3d-light) var(--win-3d-shadow);
+  display: block;
+  margin-top: 4px;
+  background: var(--win-window);
+}
+
+.viewport-section h3 {
+  font-size: var(--win-small-size);
+  font-weight: 700;
+  color: var(--win-window-text);
+  margin: 8px 0 4px;
+}
+
+.viewport-section.hidden {
+  display: none;
+}
+
+/* MDI-style client: gray around the 3D viewport */
+#viewport {
+  width: 100%;
+  height: min(58vh, 520px);
+  min-height: 280px;
+  border: 2px solid;
+  border-color: var(--win-3d-shadow) var(--win-3d-light) var(--win-3d-light) var(--win-3d-shadow);
+  background: var(--win-face);
+  position: relative;
+}
+
+#viewport canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* PIXEstL — PNG previews (color + texture) */
+.pix-source-panel h3,
+.pix-layer-panel h3 {
+  font-size: var(--win-small-size);
+  font-weight: 700;
+  margin: 8px 0 2px;
+  color: var(--win-window-text);
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.pix-main-source-preview {
+  display: block;
+  flex: 1 1 0;
+  min-height: 0;
+  width: 100%;
+  margin-top: 4px;
+  object-fit: contain;
+  border: 2px solid;
+  border-color: var(--win-3d-shadow) var(--win-3d-light) var(--win-3d-light) var(--win-3d-shadow);
+  border-top: none;
+  border-left: none;
+  background: var(--win-window);
+}
+
+.pix-layer-panel.hidden {
+  display: none;
+}
+
+.pix-layer-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: minmax(0, 1fr);
+  flex: 1 1 0;
+  min-height: 0;
+  gap: 8px;
+  margin-top: 4px;
+  align-items: stretch;
+}
+
+/* Same rule as #pix-source-panel: border-right on left column (identical paint path). */
+.pix-layer-grid > .pix-preview-block:first-child {
+  border-right: var(--pix-v-rule);
+  padding-right: 12px;
+  box-sizing: border-box;
+}
+
+.pix-layer-grid > .pix-preview-block:last-child {
+  padding-left: 8px;
+  box-sizing: border-box;
+}
+
+.pix-layer-empty {
+  margin: 4px 0;
+}
+
+.pix-preview-block {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin-bottom: 0;
+  min-width: 0;
+  min-height: 0;
+}
+
+.pix-preview-caption {
+  display: block;
+  width: 100%;
+  min-height: 18px;
+  font-size: var(--win-small-size);
+  font-weight: 700;
+  margin: 0 0 4px;
+  color: var(--win-window-text);
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.pix-preview-filename {
+  font-family: var(--win-mono);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.pix-preview-desc {
+  margin-top: 0;
+  font-size: var(--win-small-size);
+  font-weight: 700;
+  color: var(--win-window-text);
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.pix-layer-placeholder {
+  margin: 4px 0 0;
+  line-height: 1.45;
+}
+
+.pix-preview-img {
+  display: block;
+  box-sizing: border-box;
+  flex: 1 1 0;
+  min-height: 0;
+  width: 100%;
+  object-fit: contain;
+  border: 2px solid;
+  border-color: var(--win-3d-shadow) var(--win-3d-light) var(--win-3d-light) var(--win-3d-shadow);
+  border-top: none;
+  border-left: none;
+  background: var(--win-window);
+}
+
+.pix-preview-missing {
+  margin: 4px 0;
+}
+
+@media (max-width: 980px) {
+  .pix-layer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pix-layer-grid > .pix-preview-block:first-child {
+    border-right: none;
+    padding-right: 0;
+  }
+
+  .pix-layer-grid > .pix-preview-block:last-child {
+    padding-left: 0;
+  }
+}
+
+.mesh-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 220px;
+  overflow: auto;
+  font-family: var(--win-mono);
+  font-size: var(--win-small-size);
+  border: 2px solid;
+  border-color: var(--win-3d-shadow) var(--win-3d-light) var(--win-3d-light) var(--win-3d-shadow);
+  background: var(--win-window);
+}
+
+.mesh-list li {
+  padding: 2px 6px;
+  cursor: default;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mesh-list li:hover {
+  background: var(--win-highlight);
+  color: var(--win-highlight-text);
+}
+
+.mesh-list li.active {
+  background: var(--win-highlight);
+  color: var(--win-highlight-text);
+}
+
+/* Status bar — inset panels */
+#statusbar {
+  height: var(--win-statusbar-height);
+  min-height: var(--win-statusbar-height);
+  background: var(--win-status-bg);
+  color: var(--win-status-text);
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  font-size: var(--win-small-size);
+  border-top: 1px solid var(--win-3d-light);
+}
+
+#statusbar .status-cell {
+  display: flex;
+  align-items: center;
+  padding: 0 6px;
+  border-right: 1px solid var(--win-3d-shadow);
+  border-left: 1px solid var(--win-3d-light);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#statusbar .left {
+  flex: 1;
+  min-width: 0;
+  border-left: none;
+}
+
+#statusbar .stat {
+  flex: 0 0 auto;
+  min-width: 6.5em;
+  max-width: 22em;
+  justify-content: center;
+  font-family: var(--win-mono);
+  font-size: 10px;
+}
+
+#statusbar .right {
+  min-width: 100px;
+  flex: 0 0 auto;
+  justify-content: flex-end;
+}
+
+/* Keep CPU / RAM / GPU / VRAM on one row (inline spans otherwise wrap inside the block div). */
+#status-metrics-group {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  flex: 0 0 auto;
+  min-width: 0;
+}
+
+#status-metrics-group .stat {
+  flex: 0 0 auto;
+}
+
+.menu-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  background: transparent;
+}
+
+/* Modal — system dialog */
+#modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+#modal-overlay.hidden {
+  display: none !important;
+}
+
+.win-dialog {
+  background: var(--win-face);
+  border: 2px solid;
+  border-color: var(--win-3d-light) var(--win-3d-dkshadow) var(--win-3d-dkshadow) var(--win-3d-light);
+  min-width: 280px;
+  max-width: 400px;
+  padding: 0;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2);
+}
+
+.win-dialog-title {
+  background: linear-gradient(90deg, #000080 0%, #1084d0 100%);
+  color: #fff;
+  font-size: var(--win-small-size);
+  font-weight: 600;
+  padding: 3px 6px;
+  user-select: none;
+}
+
+.win-dialog-body {
+  padding: 12px 14px;
+  font-size: var(--win-ui-size);
+  line-height: 1.45;
+}
+
+.win-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 8px 12px 10px;
+  border-top: 1px solid var(--win-3d-shadow);
+}
+
+.win-dialog-actions button {
+  min-width: 75px;
+  padding: 3px 12px;
+  background: var(--win-button-face);
+  color: var(--win-button-text);
+  border: 2px solid;
+  border-color: var(--win-3d-light) var(--win-3d-dkshadow) var(--win-3d-dkshadow) var(--win-3d-light);
+  font: inherit;
+  cursor: default;
+}
+
+.win-dialog-actions button:active {
+  border-color: var(--win-3d-dkshadow) var(--win-3d-light) var(--win-3d-light) var(--win-3d-dkshadow);
+}
