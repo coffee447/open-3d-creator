@@ -1,5 +1,9 @@
 # Open 3D Creator
 
+<p align="center">
+  <img src="frontend/assets/open-3d-creator-logo.png" alt="Open 3D Creator logo" width="160" />
+</p>
+
 Open 3D Creator is a FastAPI app that hosts:
 
 - **Direct3D-S2** image-to-OBJ generation
@@ -18,7 +22,7 @@ Open 3D Creator is a FastAPI app that hosts:
 
 - `app.py` — app entrypoint (`uvicorn.run("backend.server:app", ...)`)
 - `backend/` — FastAPI app, routers, services
-- `frontend/` — HTML/CSS/ESM frontend
+- `frontend/` — HTML/CSS/ESM frontend (`frontend/assets/open-3d-creator-logo.png` — app logo)
 - `models/d3d/` — Direct3D-S2 implementation (canonical import: `models.d3d`)
 - `modules/d3d` — symlink to `models/d3d` for older `modules.d3d` imports (same files; prefer `models.d3d` in new code)
 - `outputs/d3d/meshes/` — generated OBJ files

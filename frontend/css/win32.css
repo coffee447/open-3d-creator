@@ -9,6 +9,16 @@
   user-select: none;
 }
 
+#titlebar .titlebar-logo {
+  width: 20px;
+  height: 20px;
+  margin-right: 6px;
+  align-self: center;
+  flex-shrink: 0;
+  object-fit: contain;
+  image-rendering: auto;
+}
+
 #titlebar .title {
   flex: 1;
   font-size: var(--win-small-size);
