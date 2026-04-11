@@ -59,7 +59,6 @@ weights/
 .cache/
 
 docs/
-images/
 repositories/pixestl/
 # Optional: large vendored trees (uncomment if not meant to be versioned)
 # repositories/

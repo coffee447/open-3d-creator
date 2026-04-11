@@ -18,11 +18,28 @@ Open 3D Creator is a FastAPI app that hosts:
 - System metrics endpoint for CPU/RAM/GPU/VRAM status
 - Legacy Direct3D endpoints retained for compatibility
 
+## Screenshots
+
+UI captures from the static frontend (files in [`images/`](images/)):
+
+### Home
+
+<img src="images/home.jpeg" alt="Open 3D Creator home screen" width="720" />
+
+### Direct3D-S2
+
+<img src="images/direct3d-s2.jpeg" alt="Direct3D-S2 tool — image to mesh" width="720" />
+
+### PIXEstL
+
+<img src="images/pixestl.jpeg" alt="PIXEstL tool — layer previews and export" width="720" />
+
 ## Project Layout
 
 - `app.py` — app entrypoint (`uvicorn.run("backend.server:app", ...)`)
 - `backend/` — FastAPI app, routers, services
 - `frontend/` — HTML/CSS/ESM frontend (`frontend/assets/open-3d-creator-logo.png` — app logo)
+- `images/` — README screenshots (`home.jpeg`, `direct3d-s2.jpeg`, `pixestl.jpeg`)
 - `models/d3d/` — Direct3D-S2 implementation (canonical import: `models.d3d`)
 - `modules/d3d` — symlink to `models/d3d` for older `modules.d3d` imports (same files; prefer `models.d3d` in new code)
 - `outputs/d3d/meshes/` — generated OBJ files
