@@ -6,15 +6,15 @@
 
 Open 3D Creator is a FastAPI app that hosts:
 
-- **Direct3D-S2** image-to-OBJ generation
-- **PIXEstL** image-to-layer preview and ZIP export
+- **[Direct3D-S2](https://github.com/DreamTechAI/Direct3D-S2)** image-to-OBJ generation
+- **[PIXEstL](https://github.com/gaugo87/PIXEstL)** image-to-layer preview and ZIP export
 - a static Windows-style frontend served from `frontend/`
 
 ## Features
 
 - Static web UI (no frontend build step required)
-- Direct3D-S2 API with lazy model initialization
-- PIXEstL API with preview sessions and export ZIP workflow
+- [Direct3D-S2](https://github.com/DreamTechAI/Direct3D-S2) API with lazy model initialization
+- [PIXEstL](https://github.com/gaugo87/PIXEstL) API with preview sessions and export ZIP workflow
 - System metrics endpoint for CPU/RAM/GPU/VRAM status
 - Legacy Direct3D endpoints retained for compatibility
 
@@ -70,14 +70,14 @@ python app.py --host 127.0.0.1 --port 7860
 - `GET /health`
 - `GET /api/v1/system/metrics`
 
-### Direct3D-S2 (`/api/v1/d3d`)
+### Direct3D-S2 ([GitHub](https://github.com/DreamTechAI/Direct3D-S2)) — `/api/v1/d3d`
 
 - `GET /api/v1/d3d/meshes`
 - `GET /api/v1/d3d/meshes/{mesh_id}.obj`
 - `POST /api/v1/d3d/mesh/img2obj`
 - `DELETE /api/v1/d3d/meshes/{mesh_id}`
 
-### PIXEstL (`/api/v1/pixestl`)
+### PIXEstL ([GitHub](https://github.com/gaugo87/PIXEstL)) — `/api/v1/pixestl`
 
 - `POST /api/v1/pixestl/generate`
 - `GET /api/v1/pixestl/exports`
