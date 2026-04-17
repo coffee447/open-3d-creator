@@ -62,3 +62,29 @@ docs/
 repositories/pixestl/
 # Optional: large vendored trees (uncomment if not meant to be versioned)
 # repositories/
+
+# Step1X-3D: keep only source/code-like files for commits
+models/Step1X-3D/**
+!models/Step1X-3D/
+!models/Step1X-3D/**/*.py
+!models/Step1X-3D/**/*.sh
+!models/Step1X-3D/**/*.md
+!models/Step1X-3D/**/*.txt
+!models/Step1X-3D/**/*.yaml
+!models/Step1X-3D/**/*.yml
+!models/Step1X-3D/**/*.toml
+!models/Step1X-3D/**/*.json
+!models/Step1X-3D/**/*.ini
+!models/Step1X-3D/**/*.cfg
+!models/Step1X-3D/**/*.cu
+!models/Step1X-3D/**/*.cuh
+!models/Step1X-3D/**/*.c
+!models/Step1X-3D/**/*.cc
+!models/Step1X-3D/**/*.cpp
+!models/Step1X-3D/**/*.cxx
+!models/Step1X-3D/**/*.h
+!models/Step1X-3D/**/*.hh
+!models/Step1X-3D/**/*.hpp
+!models/Step1X-3D/**/CMakeLists.txt
+!models/Step1X-3D/**/Makefile
+!models/Step1X-3D/LICENSE
