@@ -66,6 +66,7 @@ repositories/pixestl/
 # Step1X-3D: keep only source/code-like files for commits
 models/Step1X-3D/**
 !models/Step1X-3D/
+!models/Step1X-3D/**/
 !models/Step1X-3D/**/*.py
 !models/Step1X-3D/**/*.sh
 !models/Step1X-3D/**/*.md
