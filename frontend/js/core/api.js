@@ -23,6 +23,13 @@ export const pcb = {
   deleteModel: (id) => `/api/v1/pcb/models/${encodeURIComponent(id)}`,
 };
 
+export const step1x3d = {
+  generate: "/api/v1/step1x3d/generate",
+  models: "/api/v1/step1x3d/models",
+  modelGlb: (id) => `/api/v1/step1x3d/models/${encodeURIComponent(id)}.glb`,
+  deleteModel: (id) => `/api/v1/step1x3d/models/${encodeURIComponent(id)}`,
+};
+
 /**
  * @param {FormData} formData
  * @returns {Promise<{ mesh_id: string, mesh_url?: string, mesh_path?: string }>}
@@ -90,6 +97,33 @@ export async function fetchPcbModels() {
  */
 export async function deletePcbModel(modelId) {
   const res = await fetch(pcb.deleteModel(modelId), { method: "DELETE" });
+  if (!res.ok) throw new Error((await res.text()) || res.statusText);
+  return res.json();
+}
+
+/**
+ * @param {FormData} formData
+ * @returns {Promise<{ model_id: string, model_url: string, filename: string }>}
+ */
+export async function postStep1x3dGenerate(formData) {
+  const res = await fetch(step1x3d.generate, { method: "POST", body: formData });
+  if (!res.ok) throw new Error((await res.text()) || res.statusText);
+  return res.json();
+}
+
+/** @returns {Promise<{ models: Array<{ model_id: string, filename?: string }> }>} */
+export async function fetchStep1x3dModels() {
+  const res = await fetch(step1x3d.models);
+  if (!res.ok) throw new Error(await res.text());
+  return res.json();
+}
+
+/**
+ * @param {string} modelId
+ * @returns {Promise<{ deleted: string }>}
+ */
+export async function deleteStep1x3dModel(modelId) {
+  const res = await fetch(step1x3d.deleteModel(modelId), { method: "DELETE" });
   if (!res.ok) throw new Error((await res.text()) || res.statusText);
   return res.json();
 }

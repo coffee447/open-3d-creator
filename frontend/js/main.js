@@ -8,7 +8,7 @@ import {
   setStatus,
 } from "./ui/shell.js";
 import { initMetricsUI, toggleMetrics } from "./ui/metrics.js";
-import { d3d, pcb, pix } from "./app/app-handlers.js";
+import { d3d, pcb, pix, step1x3d } from "./app/app-handlers.js";
 
 const actions = {
   onToggleMetrics: toggleMetrics,
@@ -18,6 +18,7 @@ d3d.wireCreate();
 d3d.wireLibrary();
 pcb.wire();
 pix.wire();
+step1x3d.wire();
 
 initShell(actions);
 wireNavigation();

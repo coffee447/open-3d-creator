@@ -19,6 +19,8 @@ from .metrics import collect_system_metrics
 from .routers.d3d import create_d3d_router
 from .routers.pcb import create_pcb_router
 from .routers.pixestl_rt import create_pixestl_router
+from .routers.step1x3d import create_step1x3d_router
+from .services.step1x3d_service import Step1X3DService
 
 _PROJECT_ROOT = Path(__file__).resolve().parents[1]
 FRONTEND_DIR = _PROJECT_ROOT / "frontend"
@@ -26,10 +28,16 @@ D3D_MESH_DIR = _PROJECT_ROOT / "outputs/d3d/meshes"
 PIXESTL_EXPORT_DIR = _PROJECT_ROOT / "outputs/pixestl/exports"
 PIXESTL_SESSION_DIR = _PROJECT_ROOT / "outputs/pixestl/sessions"
 PCB_MODEL_DIR = _PROJECT_ROOT / "outputs/pcb/models"
+STEP1X3D_MODEL_DIR = _PROJECT_ROOT / "outputs/step1x3d/models"
 
 logger = logging.getLogger("uvicorn.error")
 
-app = FastAPI(debug=True, title="Open 3D Creator", version="0.3.0", description="Direct3D-S2, PIXEstL, and pcb2print3d tools")
+app = FastAPI(
+    debug=True,
+    title="Open 3D Creator",
+    version="0.4.0",
+    description="Direct3D-S2, PIXEstL, pcb2print3d, and Step1X-3D tools",
+)
 
 app.add_middleware(
     CORSMiddleware,
@@ -44,6 +52,7 @@ app.include_router(
     create_pixestl_router(export_dir=PIXESTL_EXPORT_DIR, session_dir=PIXESTL_SESSION_DIR)
 )
 app.include_router(create_pcb_router(output_dir=PCB_MODEL_DIR))
+app.include_router(create_step1x3d_router(output_dir=STEP1X3D_MODEL_DIR))
 
 
 @app.on_event("startup")
@@ -56,11 +65,13 @@ async def _startup() -> None:
     PIXESTL_EXPORT_DIR.mkdir(parents=True, exist_ok=True)
     PIXESTL_SESSION_DIR.mkdir(parents=True, exist_ok=True)
     PCB_MODEL_DIR.mkdir(parents=True, exist_ok=True)
+    STEP1X3D_MODEL_DIR.mkdir(parents=True, exist_ok=True)
 
     app.state.mesh_dir = D3D_MESH_DIR
     app.state.pixestl_export_dir = PIXESTL_EXPORT_DIR
     app.state.pixestl_session_dir = PIXESTL_SESSION_DIR
     app.state.pcb_model_dir = PCB_MODEL_DIR
+    app.state.step1x3d_model_dir = STEP1X3D_MODEL_DIR
     # Lazy Direct3DS2Service: weights stay off GPU until first img2obj (see ensure_d3d_service).
     app.state.service = None
     app.state.d3d_device = "cuda:0"
@@ -70,6 +81,8 @@ async def _startup() -> None:
     app.state.d3d_lock = asyncio.Lock()
     app.state.pixestl_lock = asyncio.Lock()
     app.state.pcb_lock = asyncio.Lock()
+    app.state.step1x3d_lock = asyncio.Lock()
+    app.state.step1x3d_service = Step1X3DService(project_root=project_root, device="cuda")
 
 
 def _mesh_dir() -> Path:

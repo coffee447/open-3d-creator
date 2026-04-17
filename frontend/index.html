@@ -64,6 +64,7 @@
             <button type="button" class="menu-item" data-action="nav" data-view="d3d">Direct3D-S2</button>
             <button type="button" class="menu-item" data-action="nav" data-view="pixestl">PIXEstL</button>
             <button type="button" class="menu-item" data-action="nav" data-view="pcb">pcb2print3d</button>
+            <button type="button" class="menu-item" data-action="nav" data-view="step1x3d">Step1X-3D</button>
           </div>
         </div>
         <div class="menu-wrap">
@@ -96,6 +97,9 @@
               </p>
               <p class="text-muted home-line">
                 <strong>pcb2print3d</strong> — convert KiCad PCB board files (<code>.kicad_pcb</code>) into printable STL models.
+              </p>
+              <p class="text-muted home-line">
+                <strong>Step1X-3D</strong> — image to high-fidelity 3D geometry (GLB output).
               </p>
             </div>
           </div>
@@ -178,7 +182,7 @@
             <div class="sidebar-title">Settings</div>
             <div class="win-groupbox">
               <span class="win-groupbox-title">Session</span>
-              <p class="text-muted">Direct3D-S2, PIXEstL, and pcb2print3d each use their own API paths and output directories on the server.</p>
+              <p class="text-muted">Direct3D-S2, PIXEstL, pcb2print3d, and Step1X-3D each use their own API paths and output directories on the server.</p>
             </div>
           </div>
 
@@ -203,6 +207,35 @@
             <a id="pcb-last-download" class="hidden pix-dl-link" href="#">Download latest STL</a>
             <ul class="mesh-list" id="pcb-model-list" role="listbox" aria-label="PCB STL files"></ul>
           </div>
+          <div id="side-step1x3d" class="side-section hidden">
+            <div class="sidebar-title">Step1X-3D</div>
+            <div class="win-groupbox">
+              <span class="win-groupbox-title">Source image</span>
+              <div class="form-row">
+                <label for="step1x-file-input">Image file</label>
+                <input type="file" id="step1x-file-input" accept="image/*" />
+              </div>
+            </div>
+            <div class="win-groupbox">
+              <span class="win-groupbox-title">Options</span>
+              <div class="form-row">
+                <label for="step1x-guidance">Guidance scale</label>
+                <input type="number" id="step1x-guidance" min="1" step="0.1" value="7.5" />
+              </div>
+              <div class="form-row">
+                <label for="step1x-steps">Inference steps</label>
+                <input type="number" id="step1x-steps" min="1" max="200" step="1" value="50" />
+              </div>
+              <div class="form-row">
+                <label for="step1x-seed">Seed</label>
+                <input type="number" id="step1x-seed" step="1" value="2025" />
+              </div>
+            </div>
+            <button type="button" class="btn-primary" id="btn-step1x-generate">Generate GLB</button>
+            <button type="button" class="btn-primary" id="btn-step1x-refresh">Refresh outputs</button>
+            <a id="step1x-last-download" class="hidden pix-dl-link" href="#">Download latest GLB</a>
+            <ul class="mesh-list" id="step1x-model-list" role="listbox" aria-label="Step1X GLB files"></ul>
+          </div>
         </aside>
 
         <main id="main">
@@ -225,6 +258,9 @@
               </p>
               <p class="text-muted home-line">
                 <strong>pcb2print3d</strong> — converts KiCad PCB board files (<code>.kicad_pcb</code>) into STL for 3D printing.
+              </p>
+              <p class="text-muted home-line">
+                <strong>Step1X-3D</strong> — image-conditioned generation of high-fidelity 3D geometry as GLB.
               </p>
             </div>
           </section>
@@ -253,7 +289,7 @@
           </section>
           <section id="view-settings" class="view-panel" data-view-panel="settings">
             <h2>Settings</h2>
-            <div class="panel">Server hosts three tool APIs: <code>/api/v1/d3d/*</code>, <code>/api/v1/pixestl/*</code>, and <code>/api/v1/pcb/*</code>.</div>
+            <div class="panel">Server hosts four tool APIs: <code>/api/v1/d3d/*</code>, <code>/api/v1/pixestl/*</code>, <code>/api/v1/pcb/*</code>, and <code>/api/v1/step1x3d/*</code>.</div>
           </section>
           <section id="view-pcb" class="view-panel" data-view-panel="pcb">
             <h2>pcb2print3d</h2>
@@ -262,6 +298,10 @@
               <h3>STL preview</h3>
               <div id="pcb-viewport" aria-label="PCB STL preview"></div>
             </div>
+          </section>
+          <section id="view-step1x3d" class="view-panel" data-view-panel="step1x3d">
+            <h2>Step1X-3D</h2>
+            <div class="panel">Upload an image and run Step1X-3D geometry generation. Outputs are saved as downloadable GLB files.</div>
           </section>
 
           <div id="viewport-section" class="viewport-section hidden">
@@ -289,7 +329,7 @@
         <div class="win-dialog-body">
           <p class="about-name"><strong>Open 3D Creator</strong></p>
           <p class="text-muted">
-            Hosts three independent tools: <strong>Direct3D-S2</strong> (<code>/api/v1/d3d</code>), <strong>PIXEstL</strong> (<code>/api/v1/pixestl</code>), and <strong>pcb2print3d</strong> (<code>/api/v1/pcb</code>). Classic Windows-style UI.
+            Hosts four independent tools: <strong>Direct3D-S2</strong> (<code>/api/v1/d3d</code>), <strong>PIXEstL</strong> (<code>/api/v1/pixestl</code>), <strong>pcb2print3d</strong> (<code>/api/v1/pcb</code>), and <strong>Step1X-3D</strong> (<code>/api/v1/step1x3d</code>). Classic Windows-style UI.
           </p>
         </div>
         <div class="win-dialog-actions">
