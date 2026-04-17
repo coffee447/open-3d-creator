@@ -1,6 +1,6 @@
 import { $ } from "../core/dom.js";
 
-export const VIEWS = ["home", "d3d", "d3d-lib", "pixestl", "settings"];
+export const VIEWS = ["home", "d3d", "d3d-lib", "pixestl", "pcb", "settings"];
 
 /** @type {string} */
 let currentView = "home";
@@ -84,9 +84,17 @@ export function switchView(view) {
     d3d: "Direct3D-S2",
     "d3d-lib": "Direct3D-S2 — Meshes",
     pixestl: "PIXEstL",
+    pcb: "pcb2print3d",
     settings: "Settings",
   };
-  const tool = view.startsWith("d3d") ? "Direct3D-S2" : view === "pixestl" ? "PIXEstL" : "Open 3D Creator";
+  const tool =
+    view.startsWith("d3d")
+      ? "Direct3D-S2"
+      : view === "pixestl"
+        ? "PIXEstL"
+        : view === "pcb"
+          ? "pcb2print3d"
+          : "Open 3D Creator";
   setStatus(`Ready — ${labels[view] || view}`, tool);
 }
 

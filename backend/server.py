@@ -17,6 +17,7 @@ from .d3d_ops import list_mesh_entries, resolve_mesh_path
 from .direct3d_s2_service import ensure_d3d_service
 from .metrics import collect_system_metrics
 from .routers.d3d import create_d3d_router
+from .routers.pcb import create_pcb_router
 from .routers.pixestl_rt import create_pixestl_router
 
 _PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -24,10 +25,11 @@ FRONTEND_DIR = _PROJECT_ROOT / "frontend"
 D3D_MESH_DIR = _PROJECT_ROOT / "outputs/d3d/meshes"
 PIXESTL_EXPORT_DIR = _PROJECT_ROOT / "outputs/pixestl/exports"
 PIXESTL_SESSION_DIR = _PROJECT_ROOT / "outputs/pixestl/sessions"
+PCB_MODEL_DIR = _PROJECT_ROOT / "outputs/pcb/models"
 
 logger = logging.getLogger("uvicorn.error")
 
-app = FastAPI(debug=True, title="Open 3D Creator", version="0.2.0", description="Direct3D-S2 and PIXEstL tools")
+app = FastAPI(debug=True, title="Open 3D Creator", version="0.3.0", description="Direct3D-S2, PIXEstL, and pcb2print3d tools")
 
 app.add_middleware(
     CORSMiddleware,
@@ -41,6 +43,7 @@ app.include_router(create_d3d_router(mesh_dir=D3D_MESH_DIR))
 app.include_router(
     create_pixestl_router(export_dir=PIXESTL_EXPORT_DIR, session_dir=PIXESTL_SESSION_DIR)
 )
+app.include_router(create_pcb_router(output_dir=PCB_MODEL_DIR))
 
 
 @app.on_event("startup")
@@ -52,10 +55,12 @@ async def _startup() -> None:
     D3D_MESH_DIR.mkdir(parents=True, exist_ok=True)
     PIXESTL_EXPORT_DIR.mkdir(parents=True, exist_ok=True)
     PIXESTL_SESSION_DIR.mkdir(parents=True, exist_ok=True)
+    PCB_MODEL_DIR.mkdir(parents=True, exist_ok=True)
 
     app.state.mesh_dir = D3D_MESH_DIR
     app.state.pixestl_export_dir = PIXESTL_EXPORT_DIR
     app.state.pixestl_session_dir = PIXESTL_SESSION_DIR
+    app.state.pcb_model_dir = PCB_MODEL_DIR
     # Lazy Direct3DS2Service: weights stay off GPU until first img2obj (see ensure_d3d_service).
     app.state.service = None
     app.state.d3d_device = "cuda:0"
@@ -64,6 +69,7 @@ async def _startup() -> None:
     app.state.d3d_service_init_lock = asyncio.Lock()
     app.state.d3d_lock = asyncio.Lock()
     app.state.pixestl_lock = asyncio.Lock()
+    app.state.pcb_lock = asyncio.Lock()
 
 
 def _mesh_dir() -> Path:

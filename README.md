@@ -8,6 +8,7 @@ Open 3D Creator is a FastAPI app that hosts:
 
 - **[Direct3D-S2](https://github.com/DreamTechAI/Direct3D-S2)** image-to-OBJ generation
 - **[PIXEstL](https://github.com/gaugo87/PIXEstL)** image-to-layer preview and ZIP export
+- **pcb2print3d** KiCad PCB (`.kicad_pcb`) to STL conversion
 - a static Windows-style frontend served from `frontend/`
 
 ## Features
@@ -15,6 +16,7 @@ Open 3D Creator is a FastAPI app that hosts:
 - Static web UI (no frontend build step required)
 - [Direct3D-S2](https://github.com/DreamTechAI/Direct3D-S2) API with lazy model initialization
 - [PIXEstL](https://github.com/gaugo87/PIXEstL) API with preview sessions and export ZIP workflow
+- pcb2print3d API for KiCad PCB to STL conversion
 - System metrics endpoint for CPU/RAM/GPU/VRAM status
 - Legacy Direct3D endpoints retained for compatibility
 
@@ -41,10 +43,12 @@ UI captures from the static frontend (files in [`images/`](images/)):
 - `frontend/` — HTML/CSS/ESM frontend (`frontend/assets/open-3d-creator-logo.png` — app logo)
 - `images/` — README screenshots (`home.jpeg`, `direct3d-s2.jpeg`, `pixestl.jpeg`)
 - `models/d3d/` — Direct3D-S2 implementation (canonical import: `models.d3d`)
+- `models/pcb2print3d/` — KiCad PCB to STL converter implementation
 - `modules/d3d` — symlink to `models/d3d` for older `modules.d3d` imports (same files; prefer `models.d3d` in new code)
 - `outputs/d3d/meshes/` — generated OBJ files
 - `outputs/pixestl/sessions/` — PIXEstL preview session files
 - `outputs/pixestl/exports/` — PIXEstL ZIP exports
+- `outputs/pcb/models/` — generated PCB STL files
 - `weights/` — model weights (Direct3D-S2 / related assets)
 
 ## Requirements
@@ -102,6 +106,13 @@ python app.py --host 127.0.0.1 --port 7860
 - `GET /api/v1/pixestl/exports/{export_id}.zip`
 - `GET /api/v1/pixestl/exports/{export_id}/preview/{filename}`
 - `DELETE /api/v1/pixestl/exports/{export_id}`
+
+### pcb2print3d — `/api/v1/pcb`
+
+- `POST /api/v1/pcb/convert`
+- `GET /api/v1/pcb/models`
+- `GET /api/v1/pcb/models/{model_id}.stl`
+- `DELETE /api/v1/pcb/models/{model_id}`
 
 ### Legacy Direct3D routes (compat)
 

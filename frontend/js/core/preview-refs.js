@@ -4,3 +4,8 @@
  * @type {{ current: import("../ui/mesh-viewer.js").MeshViewer | null }}
  */
 export const d3dViewerRef = { current: null };
+
+/**
+ * @type {{ current: import("../ui/mesh-viewer.js").MeshViewer | null }}
+ */
+export const pcbViewerRef = { current: null };

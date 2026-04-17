@@ -1,5 +1,5 @@
 """
-Open 3D Creator — FastAPI hosts Direct3D-S2 and PIXEstL APIs + static Win32-style UI.
+Open 3D Creator — FastAPI hosts Direct3D-S2, PIXEstL, and pcb2print3d APIs + static Win32-style UI.
 
 Run: python app.py
 Then open http://127.0.0.1:7860/

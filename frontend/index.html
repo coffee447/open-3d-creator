@@ -63,6 +63,7 @@
           <div class="menu-panel hidden" id="menu-tools" role="menu">
             <button type="button" class="menu-item" data-action="nav" data-view="d3d">Direct3D-S2</button>
             <button type="button" class="menu-item" data-action="nav" data-view="pixestl">PIXEstL</button>
+            <button type="button" class="menu-item" data-action="nav" data-view="pcb">pcb2print3d</button>
           </div>
         </div>
         <div class="menu-wrap">
@@ -92,6 +93,9 @@
               <p class="text-muted home-line">
                 <strong>PIXEstL</strong> — image → filament layers, STLs + PNG previews for multi-material prints.
                 <a class="home-gh-link" href="https://github.com/gaugo87/PIXEstL" target="_blank" rel="noopener noreferrer">GitHub</a>
+              </p>
+              <p class="text-muted home-line">
+                <strong>pcb2print3d</strong> — convert KiCad PCB board files (<code>.kicad_pcb</code>) into printable STL models.
               </p>
             </div>
           </div>
@@ -174,8 +178,30 @@
             <div class="sidebar-title">Settings</div>
             <div class="win-groupbox">
               <span class="win-groupbox-title">Session</span>
-              <p class="text-muted">Direct3D-S2 and PIXEstL each use their own API paths and output directories on the server.</p>
+              <p class="text-muted">Direct3D-S2, PIXEstL, and pcb2print3d each use their own API paths and output directories on the server.</p>
             </div>
+          </div>
+
+          <div id="side-pcb" class="side-section hidden">
+            <div class="sidebar-title">pcb2print3d</div>
+            <div class="win-groupbox">
+              <span class="win-groupbox-title">Source</span>
+              <div class="form-row">
+                <label for="pcb-file-input">KiCad PCB file</label>
+                <input type="file" id="pcb-file-input" accept=".kicad_pcb,text/plain" />
+              </div>
+            </div>
+            <div class="win-groupbox">
+              <span class="win-groupbox-title">Options</span>
+              <div class="form-row">
+                <label for="pcb-thickness">Board thickness (mm)</label>
+                <input type="number" id="pcb-thickness" min="0.1" step="0.1" value="1.6" />
+              </div>
+            </div>
+            <button type="button" class="btn-primary" id="btn-pcb-convert">Convert to STL</button>
+            <button type="button" class="btn-primary" id="btn-pcb-refresh">Refresh STL list</button>
+            <a id="pcb-last-download" class="hidden pix-dl-link" href="#">Download latest STL</a>
+            <ul class="mesh-list" id="pcb-model-list" role="listbox" aria-label="PCB STL files"></ul>
           </div>
         </aside>
 
@@ -196,6 +222,9 @@
               <p class="text-muted home-line">
                 <strong>PIXEstL</strong> — slices an image into filament-colored layers and exports stacked STLs and PNG previews for multi-material printing.
                 <a class="home-gh-link" href="https://github.com/gaugo87/PIXEstL" target="_blank" rel="noopener noreferrer">GitHub</a>
+              </p>
+              <p class="text-muted home-line">
+                <strong>pcb2print3d</strong> — converts KiCad PCB board files (<code>.kicad_pcb</code>) into STL for 3D printing.
               </p>
             </div>
           </section>
@@ -224,7 +253,15 @@
           </section>
           <section id="view-settings" class="view-panel" data-view-panel="settings">
             <h2>Settings</h2>
-            <div class="panel">Server hosts two tool APIs: <code>/api/v1/d3d/*</code> and <code>/api/v1/pixestl/*</code>.</div>
+            <div class="panel">Server hosts three tool APIs: <code>/api/v1/d3d/*</code>, <code>/api/v1/pixestl/*</code>, and <code>/api/v1/pcb/*</code>.</div>
+          </section>
+          <section id="view-pcb" class="view-panel" data-view-panel="pcb">
+            <h2>pcb2print3d</h2>
+            <div class="panel">Upload a KiCad PCB file, set thickness, and convert to STL using the sidebar.</div>
+            <div class="panel">
+              <h3>STL preview</h3>
+              <div id="pcb-viewport" aria-label="PCB STL preview"></div>
+            </div>
           </section>
 
           <div id="viewport-section" class="viewport-section hidden">
@@ -252,7 +289,7 @@
         <div class="win-dialog-body">
           <p class="about-name"><strong>Open 3D Creator</strong></p>
           <p class="text-muted">
-            Hosts two independent tools: <strong>Direct3D-S2</strong> (FastAPI <code>/api/v1/d3d</code>) and <strong>PIXEstL</strong> (<code>/api/v1/pixestl</code>). Classic Windows-style UI.
+            Hosts three independent tools: <strong>Direct3D-S2</strong> (<code>/api/v1/d3d</code>), <strong>PIXEstL</strong> (<code>/api/v1/pixestl</code>), and <strong>pcb2print3d</strong> (<code>/api/v1/pcb</code>). Classic Windows-style UI.
           </p>
         </div>
         <div class="win-dialog-actions">

@@ -15,6 +15,14 @@ export const pixestl = {
     `/api/v1/pixestl/exports/${encodeURIComponent(exportId)}/preview/${encodeURIComponent(filename)}`,
 };
 
+/** pcb2print3d (KiCad PCB -> STL) API. */
+export const pcb = {
+  convert: "/api/v1/pcb/convert",
+  models: "/api/v1/pcb/models",
+  modelStl: (id) => `/api/v1/pcb/models/${encodeURIComponent(id)}.stl`,
+  deleteModel: (id) => `/api/v1/pcb/models/${encodeURIComponent(id)}`,
+};
+
 /**
  * @param {FormData} formData
  * @returns {Promise<{ mesh_id: string, mesh_url?: string, mesh_path?: string }>}
@@ -56,6 +64,33 @@ export async function postPixestlExportZip(exportId) {
 export async function fetchPixestlExports() {
   const res = await fetch(pixestl.exports);
   if (!res.ok) throw new Error(await res.text());
+  return res.json();
+}
+
+/**
+ * @param {FormData} formData
+ * @returns {Promise<{ model_id: string, model_url: string, filename: string }>}
+ */
+export async function postPcbConvert(formData) {
+  const res = await fetch(pcb.convert, { method: "POST", body: formData });
+  if (!res.ok) throw new Error((await res.text()) || res.statusText);
+  return res.json();
+}
+
+/** @returns {Promise<{ models: Array<{ model_id: string, filename?: string }> }>} */
+export async function fetchPcbModels() {
+  const res = await fetch(pcb.models);
+  if (!res.ok) throw new Error(await res.text());
+  return res.json();
+}
+
+/**
+ * @param {string} modelId
+ * @returns {Promise<{ deleted: string }>}
+ */
+export async function deletePcbModel(modelId) {
+  const res = await fetch(pcb.deleteModel(modelId), { method: "DELETE" });
+  if (!res.ok) throw new Error((await res.text()) || res.statusText);
   return res.json();
 }
 

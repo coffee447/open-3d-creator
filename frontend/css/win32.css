@@ -352,6 +352,23 @@
   height: 100% !important;
 }
 
+#pcb-viewport {
+  width: 100%;
+  height: min(58vh, 520px);
+  min-height: 280px;
+  border: 2px solid;
+  border-color: var(--win-3d-shadow) var(--win-3d-light) var(--win-3d-light) var(--win-3d-shadow);
+  background: var(--win-face);
+  position: relative;
+  margin-top: 6px;
+}
+
+#pcb-viewport canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
 /* PIXEstL — PNG previews (color + texture) */
 .pix-source-panel h3,
 .pix-layer-panel h3 {
@@ -511,6 +528,30 @@
 .mesh-list li.active {
   background: var(--win-highlight);
   color: var(--win-highlight-text);
+}
+
+.pcb-model-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+}
+
+.pcb-model-item a {
+  flex: 1;
+  min-width: 0;
+  color: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pcb-model-item .btn-primary {
+  width: auto;
+  margin-top: 0;
+  padding: 2px 6px;
+  flex: 0 0 auto;
 }
 
 /* Status bar — inset panels */
